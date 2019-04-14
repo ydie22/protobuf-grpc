@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.7.0" />
+    <PackageReference Include="Grpc.Tools" Version="1.19.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Explicitly include our *.proto file by adding this line: -->
+  <ItemGroup>
+    <Protobuf Include="**/*.proto" OutputDir="%(RelativePath)" CompileOutputs="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Update="google\protobuf\any.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\api.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\descriptor.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\duration.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\empty.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\field_mask.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\source_context.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\struct.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\timestamp.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\type.proto" ProtoCompile="false" />
+    <Protobuf Update="google\protobuf\wrappers.proto" ProtoCompile="false" />
+    <Protobuf Update="Invoice.proto" GrpcServices="None" />
+    <Protobuf Update="InvoiceLine.proto" GrpcServices="None" />
+  </ItemGroup>
+
+</Project>

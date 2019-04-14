@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+package Invoicing;
+
+option csharp_namespace = "Invoicing";
+
+message InvoiceLine {
+	uint32 line_number = 1;
+	int32 product_id = 2;
+	string product_name = 3;
+
+	uint32 quantity = 4;
+	float unit_price = 5;
+	float line_amount = 6;
+}

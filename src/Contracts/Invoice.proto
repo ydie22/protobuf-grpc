@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "InvoiceLine.proto";
+
+package Invoicing;
+
+option csharp_namespace = "Invoicing";
+
+enum PaymentCondition {
+	CASH = 0;
+	END_OF_MONTH = 1;
+	SIXTY_DAYS = 2;
+	NINETY_DAYS = 3;
+}
+
+message Invoice {
+	string invoice_number = 1;
+	int32 customer_id = 2;
+	string customer_name = 3;
+	google.protobuf.Timestamp invoice_date = 4;
+	float total_amount = 5;
+	PaymentCondition payment_condition = 6;
+
+	repeated InvoiceLine Lines = 7;
+}
