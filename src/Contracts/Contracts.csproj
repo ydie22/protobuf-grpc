@@ -17,6 +17,10 @@
     <Protobuf Include="**/*.proto" OutputDir="%(RelativePath)" CompileOutputs="false" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Invoice - Copy.proto" />
+    <None Remove="InvoiceV2.proto" />
+  </ItemGroup>
+  <ItemGroup>
     <Protobuf Update="google\protobuf\any.proto" ProtoCompile="false" />
     <Protobuf Update="google\protobuf\api.proto" ProtoCompile="false" />
     <Protobuf Update="google\protobuf\descriptor.proto" ProtoCompile="false" />
@@ -28,8 +32,13 @@
     <Protobuf Update="google\protobuf\timestamp.proto" ProtoCompile="false" />
     <Protobuf Update="google\protobuf\type.proto" ProtoCompile="false" />
     <Protobuf Update="google\protobuf\wrappers.proto" ProtoCompile="false" />
+    <Protobuf Update="Invoice - Copy.proto" GrpcServices="None">
+      <OutputDir>%(RelativePath)</OutputDir>
+      <CompileOutputs>false</CompileOutputs>
+    </Protobuf>
     <Protobuf Update="Invoice.proto" GrpcServices="None" />
     <Protobuf Update="InvoiceLine.proto" GrpcServices="None" />
+    <Protobuf Update="InvoiceV2.proto" GrpcServices="None" />
   </ItemGroup>
 
 </Project>
