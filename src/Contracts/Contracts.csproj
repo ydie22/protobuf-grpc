@@ -31,6 +31,7 @@
     <Protobuf Update="google\protobuf\wrappers.proto" ProtoCompile="false" />
     <Protobuf Update="Invoice.proto" GrpcServices="None" />
     <Protobuf Update="InvoiceLine.proto" GrpcServices="None" />
+    <Protobuf Update="InvoiceV2.proto" GrpcServices="None" />
   </ItemGroup>
 
 </Project>

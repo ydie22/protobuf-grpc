@@ -1,8 +1,12 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoFixture.Xunit2;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using InvoicingV2;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Server.Tests
 {
@@ -10,48 +14,48 @@ namespace Server.Tests
 	{
 		private readonly Channel _channel;
 		private readonly InvoicingService.InvoicingServiceClient _client;
+		private readonly ITestOutputHelper _output;
 
-		public InvoicingServiceFixture()
+		public InvoicingServiceFixture(ITestOutputHelper output)
 		{
+			_output = output;
 			_channel = new Channel("127.0.0.1:" + ServerFixture.Port, ChannelCredentials.Insecure);
 
 			_client = new InvoicingService.InvoicingServiceClient(_channel);
 		}
 
-		[Theory]
-		[AutoData]
-		public void FindInvoice_WhenCalled_ReturnsAResponse(string invoiceNumber)
-		{
-			var request = new FindInvoiceRequest {InvoiceNumber = invoiceNumber};
-			var response = _client.FindInvoice(request);
-
-			Assert.NotNull(response);
-		}
 
 		public void Dispose()
 		{
 			_channel.ShutdownAsync().Wait();
 		}
-	}
 
-	public class ServerFixture : IDisposable
-	{
-		public const int Port = 55555;
-		private readonly Grpc.Core.Server _server;
-
-		public ServerFixture()
+		[Theory]
+		[AutoData]
+		public async Task FindInvoice_WhenCalled_ReturnsAResponse(string invoiceNumber)
 		{
-			_server = new Grpc.Core.Server
-			{
-				Services = {InvoicingService.BindService(new InvoicingServiceImpl())},
-				Ports = {new ServerPort("localhost", Port, ServerCredentials.Insecure)}
-			};
-			_server.Start();
+			var request = new FindInvoiceRequest {InvoiceNumber = invoiceNumber};
+			var response = await _client.FindInvoiceAsync(request);
+
+			Assert.NotNull(response);
+			_output.WriteLine("Got invoice with number {0}", response.Invoice.InvoiceNumber);
 		}
 
-		public void Dispose()
+		[Theory]
+		[AutoData]
+		public async Task FindInvoicesByDate_WhenCalled_ReturnsAResponse(Timestamp startDate, Timestamp endDate)
 		{
-			_server.ShutdownAsync().Wait();
+			var request = new FindInvoicesByDateRequest
+				{StartDate = startDate, EndDate = endDate};
+			using (var call = _client.FindInvoicesByDate(request))
+			{
+				var responseStream = call.ResponseStream;
+				while (await responseStream.MoveNext(CancellationToken.None))
+				{
+					var invoice = responseStream.Current.Invoice;
+					_output.WriteLine("Got invoice with number {0}", invoice.InvoiceNumber);
+				}
+			}
 		}
 	}
 }

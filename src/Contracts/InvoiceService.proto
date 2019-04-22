@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "InvoiceV2.proto";
+
+package Invoicing;
+
+option csharp_namespace = "InvoicingV2";
+
+message FindInvoiceRequest {
+	string invoice_number = 1;
+}
+
+message FindInvoiceResponse {
+	Invoice invoice = 1;
+}
+
+message FindInvoicesByDateRequest {
+	google.protobuf.Timestamp start_date = 1;
+	google.protobuf.Timestamp end_date = 2;
+}
+
+message FindInvoicesByDateResponse {
+	Invoice invoice = 1;
+}
+
+service InvoicingService {
+	rpc FindInvoice(FindInvoiceRequest) returns(FindInvoiceResponse) {};
+	rpc FindInvoicesByDate(FindInvoicesByDateRequest) returns(stream FindInvoicesByDateResponse) {}
+}
