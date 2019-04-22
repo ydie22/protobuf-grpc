@@ -28,3 +28,25 @@ message Invoice {
 
 	string customer_address = 8;
 }
+
+message FindInvoiceRequest {
+	string invoice_number = 1;
+}
+
+message FindInvoiceResponse {
+	Invoice invoice = 1;
+}
+
+message FindInvoicesByDateRequest {
+	google.protobuf.Timestamp start_date = 1;
+	google.protobuf.Timestamp end_date = 2;
+}
+
+message FindInvoicesByDateResponse {
+	Invoice invoice = 1;
+}
+
+service InvoicingService {
+	rpc FindInvoice(FindInvoiceRequest) returns(FindInvoiceResponse) {};
+	rpc FindInvoicesByDate(FindInvoicesByDateRequest) returns(stream FindInvoicesByDateRequest) {}
+}

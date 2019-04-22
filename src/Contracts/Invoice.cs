@@ -290,7 +290,7 @@ namespace Invoicing {
       }
       if (other.invoiceDate_ != null) {
         if (invoiceDate_ == null) {
-          invoiceDate_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+          InvoiceDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
         }
         InvoiceDate.MergeFrom(other.InvoiceDate);
       }
@@ -326,9 +326,9 @@ namespace Invoicing {
           }
           case 34: {
             if (invoiceDate_ == null) {
-              invoiceDate_ = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+              InvoiceDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
-            input.ReadMessage(invoiceDate_);
+            input.ReadMessage(InvoiceDate);
             break;
           }
           case 45: {
@@ -336,7 +336,7 @@ namespace Invoicing {
             break;
           }
           case 48: {
-            paymentCondition_ = (global::Invoicing.PaymentCondition) input.ReadEnum();
+            PaymentCondition = (global::Invoicing.PaymentCondition) input.ReadEnum();
             break;
           }
           case 58: {
